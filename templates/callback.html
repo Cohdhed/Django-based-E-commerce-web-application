@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Order confirmed | DevCircle{% endblock %}
+{% block content %}
+<section class="container my-5 callback">
+    <div class="form-card mx-auto text-center" style="max-width: 640px;">
+        <i class="bi bi-check-circle-fill confirm-icon" aria-hidden="true"></i>
+        <h1 class="h3 mt-2">Thank you, {{ userprof.first_name|title }}!</h1>
+        <p class="mb-1">Your payment of <strong>₦{{ payment.amount|floatformat:2|intcomma }}</strong> was received.</p>
+        <p class="text-body-secondary small">Reference: {{ payment.pay_code }}</p>
+
+        {% if cart %}
+        <ul class="list-unstyled text-start my-4">
+            {% for item in cart %}
+            <li class="d-flex align-items-center gap-3 py-2 border-bottom">
+                <img src="{{ item.phone.pix.url }}" alt="" class="cart-thumb">
+                <div class="flex-grow-1">{{ item.phone.name }} <span class="text-body-secondary">× {{ item.qty }}</span></div>
+                <div>₦{{ item.line_total|floatformat:2|intcomma }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <p class="text-body-secondary">We will deliver to {{ payment.address|default:userprof.address }}.</p>
+        <a href="{% url 'orders' %}" class="btn btn-outline-brand me-2">My orders</a>
+        <a href="{% url 'products' %}" class="btn btn-brand">Keep shopping</a>
+    </div>
+</section>
+{% endblock content %}

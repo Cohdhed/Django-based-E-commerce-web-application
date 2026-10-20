@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Log in | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+
+{% block content %}
+<section class="container my-5">
+    <div class="auth-split"><aside class="auth-aside"><div><h2>Welcome back.</h2></div><ul><li><i class="bi bi-check-circle-fill"></i>Track every order</li><li><i class="bi bi-check-circle-fill"></i>Faster checkout</li><li><i class="bi bi-check-circle-fill"></i>Your cart stays saved</li></ul></aside>
+    <div class="form-card">
+        <div class="text-center mb-4">
+            <i class="bi bi-lock-fill auth-icon" aria-hidden="true"></i>
+            <h1 class="h3 mt-2">Log in</h1>
+            <p class="text-body-secondary mb-0">Access your cart, orders and profile.</p>
+        </div>
+        <form action="{% url 'signin' %}" method="post" data-once>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="mb-3">
+                <label for="si-username" class="form-label">Username</label>
+                <input type="text" id="si-username" name="username" class="form-control" autocomplete="username" autofocus required>
+            </div>
+            <div class="mb-4">
+                <label for="si-password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input type="password" id="si-password" name="password" class="form-control" autocomplete="current-password" required>
+                    <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#si-password" aria-label="Show password" aria-pressed="false">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-brand w-100">Log in</button>
+        </form>
+        <p class="text-center mt-4 mb-0">New here? <a class="link-brand" href="{% url 'signup' %}">Create an account</a></p>
+    </div></div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}<script src="{% static 'js/login.js' %}?v={{ asset_v }}" defer></script>{% endblock %}

@@ -1,0 +1,65 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}DevCircle{% endblock title %}</title>
+    <meta name="description" content="{% block meta_description %}DevCircle: the latest phones at fair prices, delivered to your door.{% endblock %}">
+    <meta name="theme-color" content="#7d3054">
+    <link rel="icon" href="{% if cprofile.favicon %}{{ cprofile.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}">
+
+    {# Apply saved theme before first paint so there is no white flash in dark mode #}
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-bs-theme', saved || (prefersDark ? 'dark' : 'light'));
+                document.documentElement.classList.add('js');
+            } catch (e) {}
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+    {# Your stylesheet loads AFTER Bootstrap so your rules win #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={{ asset_v }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {% block header %}{% include 'header.html' %}{% endblock header %}
+
+    {% block corousel %}{% endblock corousel %}
+    {% block banner %}{% endblock banner %}
+
+    {% if messages %}
+    <div class="container mt-3" aria-live="polite">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main id="main">
+        {% block content %}{% endblock content %}
+    </main>
+
+    {% block footer %}{% include 'footer.html' %}{% endblock footer %}
+
+    <button type="button" id="back-to-top" class="btn btn-brand back-to-top" aria-label="Back to top" hidden>
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}" defer></script>
+    <script src="{% static 'js/index.js' %}?v={{ asset_v }}" defer></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

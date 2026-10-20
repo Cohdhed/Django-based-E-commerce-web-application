@@ -1,0 +1,34 @@
+{% load humanize %}
+<section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+        <div>
+            <h1 id="hero-title">Your next phone, priced clear.</h1>
+            <p class="lead">Genuine devices from brands you know, with the price right on the tag and delivery to your door.</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'products' %}" class="btn btn-tag btn-lg">Shop all phones</a>
+                <a href="{% url 'contact' %}" class="btn btn-ghost btn-lg">Talk to us</a>
+            </div>
+        </div>
+        {% if featured %}
+        <div class="stack" aria-label="Featured phones">
+            {% for item in featured|slice:":3" %}
+            <a class="stack-item" href="{{ item.get_absolute_url }}">
+                <img src="{{ item.pix.url }}" alt="">
+                <span class="nm">{{ item.name }}</span>
+                <span class="price-tag">₦{{ item.final_price|floatformat:0|intcomma }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+<div class="trust">
+    <div class="container">
+        <ul>
+            <li><i class="bi bi-patch-check-fill"></i>Genuine devices</li>
+            <li><i class="bi bi-truck"></i>Delivery to your door</li>
+            <li><i class="bi bi-shield-lock-fill"></i>Secure Paystack checkout</li>
+            <li><i class="bi bi-headset"></i>Real people on the phone</li>
+        </ul>
+    </div>
+</div>

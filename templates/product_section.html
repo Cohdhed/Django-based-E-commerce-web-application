@@ -1,0 +1,11 @@
+{% if products %}
+<section class="container my-5" aria-labelledby="{{ section_id }}">
+    <div class="shelf-head">
+        <h2 id="{{ section_id }}">{{ heading }}</h2>
+        <a href="{% url 'products' %}" class="link-brand">See all phones</a>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 g-md-4">
+        {% for item in products %}<div class="col">{% include 'product_card.html' with item=item %}</div>{% endfor %}
+    </div>
+</section>
+{% endif %}

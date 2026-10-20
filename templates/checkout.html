@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Checkout | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+
+{% block content %}
+<section class="container my-5">
+    <h1 class="section-title text-center mb-5">Checkout</h1>
+    <div class="row g-4">
+        <div class="col-lg-6 order-lg-2">
+            <div class="summary-card" aria-label="Order summary">
+                <h2 class="h5 mb-3">Order summary</h2>
+                <ul class="list-unstyled mb-3">
+                    {% for item in cart %}
+                    <li class="d-flex align-items-center gap-3 py-2 border-bottom">
+                        <img src="{{ item.phone.pix.url }}" alt="{{ item.phone.name }}" class="cart-thumb">
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">{{ item.phone.name }}</div>
+                            <div class="small text-body-secondary">Qty {{ item.qty }}</div>
+                        </div>
+                        <div class="fw-semibold">₦{{ item.line_total|floatformat:2|intcomma }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <dl class="summary-list">
+                    <div><dt>Subtotal</dt><dd>₦{{ subtotal|floatformat:2|intcomma }}</dd></div>
+                    <div><dt>VAT (7.5%)</dt><dd>₦{{ vat|floatformat:2|intcomma }}</dd></div>
+                    <div class="summary-total"><dt>Total</dt><dd>₦{{ total|floatformat:2|intcomma }}</dd></div>
+                </dl>
+                <a href="{% url 'cart' %}" class="link-brand small">Edit cart</a>
+            </div>
+        </div>
+
+        <div class="col-lg-6 order-lg-1">
+            <div class="form-card">
+                <h2 class="h5 mb-4">Delivery details</h2>
+                <form action="{% url 'pay' %}" method="post" data-once>
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="co-first" class="form-label">First name</label>
+                            <input type="text" id="co-first" name="first_name" value="{{ userprof.first_name }}" class="form-control" autocomplete="given-name" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="co-last" class="form-label">Last name</label>
+                            <input type="text" id="co-last" name="last_name" value="{{ userprof.last_name }}" class="form-control" autocomplete="family-name" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="co-email" class="form-label">Email address</label>
+                            <input type="email" id="co-email" value="{{ user.email }}" class="form-control" autocomplete="email" readonly aria-describedby="co-email-help">
+                            <div id="co-email-help" class="form-text">Your payment receipt is sent to this address.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="co-phone" class="form-label">Phone number</label>
+                            <input type="tel" id="co-phone" name="phone" value="{{ userprof.phone }}" class="form-control" autocomplete="tel" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="co-address" class="form-label">Delivery address</label>
+                            <input type="text" id="co-address" name="address" value="{{ userprof.address }}" class="form-control" autocomplete="street-address" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-brand btn-lg w-100 mt-4"><i class="bi bi-lock-fill"></i> Pay ₦{{ total|floatformat:2|intcomma }}</button>
+                    <p class="small text-body-secondary text-center mt-2 mb-0">You will be taken to Paystack to pay securely.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Your cart | DevCircle{% endblock %}
+
+{% block content %}
+<section class="container my-5">
+    <h1 class="section-title mb-4">Your cart</h1>
+
+    {% if cart %}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="form-card p-2 p-sm-4">
+                <table class="table align-middle cart-table mb-0">
+                    <thead>
+                        <tr><th scope="col">Phone</th><th scope="col" class="text-center">Quantity</th><th scope="col" class="text-end">Total</th><th scope="col"><span class="visually-hidden">Remove</span></th></tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="{{ item.phone.pix.url }}" alt="" class="cart-thumb">
+                                    <div>
+                                        <a class="fw-semibold text-decoration-none" style="color: var(--ink)" href="{{ item.phone.get_absolute_url }}">{{ item.phone.name }}</a>
+                                        <div class="small text-body-secondary">₦{{ item.price|floatformat:0|intcomma }} each</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <form action="{% url 'increase' %}" method="post" class="qty-form" data-autosubmit>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quant_id" value="{{ item.id }}">
+                                    <div class="stepper">
+                                        <button type="button" class="stepper-btn" data-step="-1" aria-label="One fewer {{ item.phone.name }}">&minus;</button>
+                                        <label for="qty-{{ item.id }}" class="visually-hidden">Quantity for {{ item.phone.name }}</label>
+                                        <input type="number" id="qty-{{ item.id }}" min="1" max="50" name="quant" value="{{ item.qty }}" required>
+                                        <button type="button" class="stepper-btn" data-step="1" aria-label="One more {{ item.phone.name }}">+</button>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-outline-brand ms-1 no-js-only">Update</button>
+                                </form>
+                            </td>
+                            <td class="text-end"><span class="price-tag">₦{{ item.line_total|floatformat:0|intcomma }}</span></td>
+                            <td class="text-end">
+                                <form action="{% url 'delete' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="del_id" value="{{ item.id }}">
+                                    <button type="submit" class="icon-btn" aria-label="Remove {{ item.phone.name }} from cart"><i class="bi bi-trash3"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-3"><a href="{% url 'products' %}" class="link-brand"><i class="bi bi-arrow-left"></i> Keep shopping</a></p>
+        </div>
+
+        <div class="col-lg-4">
+            <aside class="summary-card" aria-label="Order summary">
+                <h2 class="h5 mb-3">Order summary</h2>
+                <dl class="summary-list mb-3">
+                    <div><dt>Subtotal</dt><dd>₦{{ subtotal|floatformat:2|intcomma }}</dd></div>
+                    <div><dt>VAT (7.5%)</dt><dd>₦{{ vat|floatformat:2|intcomma }}</dd></div>
+                    <div class="summary-total"><dt>Total</dt><dd>₦{{ total|floatformat:2|intcomma }}</dd></div>
+                </dl>
+                <a href="{% url 'checkout' %}" class="btn btn-brand btn-lg w-100">Go to checkout</a>
+                <p class="small text-body-secondary text-center mt-3 mb-0"><i class="bi bi-shield-lock-fill"></i> Pay securely with Paystack</p>
+            </aside>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center empty-state py-5">
+        <i class="bi bi-bag"></i>
+        <h2 class="h4 mt-3">Your cart is empty</h2>
+        <p class="text-body-secondary">Find a phone you like and it will wait for you here.</p>
+        <a href="{% url 'products' %}" class="btn btn-brand">Browse phones</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock content %}

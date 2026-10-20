@@ -1,0 +1,17 @@
+{% if pagin.has_other_pages %}
+<nav aria-label="Pages" class="mt-5">
+    <ul class="pagination justify-content-center flex-wrap">
+        {% if pagin.has_previous %}
+        <li class="page-item"><a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ pagin.previous_page_number }}">Previous</a></li>
+        {% else %}<li class="page-item disabled"><span class="page-link">Previous</span></li>{% endif %}
+        {% for n in pagin.paginator.page_range %}
+        <li class="page-item {% if n == pagin.number %}active{% endif %}" {% if n == pagin.number %}aria-current="page"{% endif %}>
+            <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ n }}">{{ n }}</a>
+        </li>
+        {% endfor %}
+        {% if pagin.has_next %}
+        <li class="page-item"><a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ pagin.next_page_number }}">Next</a></li>
+        {% else %}<li class="page-item disabled"><span class="page-link">Next</span></li>{% endif %}
+    </ul>
+</nav>
+{% endif %}

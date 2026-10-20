@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create account | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+
+{% block content %}
+<section class="container my-5">
+    <div class="auth-split"><aside class="auth-aside"><div><h2>Join in a minute.</h2></div><ul><li><i class="bi bi-check-circle-fill"></i>Prices clear on every tag</li><li><i class="bi bi-check-circle-fill"></i>Pay securely with Paystack</li><li><i class="bi bi-check-circle-fill"></i>Delivery to your door</li></ul></aside>
+    <div class="form-card">
+        <div class="text-center mb-4">
+            <h1 class="h3">Create your account</h1>
+            <p class="text-body-secondary mb-0">It takes a minute, and checkout is faster next time.</p>
+        </div>
+        <form action="{% url 'signup' %}" method="post" data-once>
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-12">
+                    <label for="su-username" class="form-label">Username</label>
+                    <input type="text" id="su-username" name="username" value="{{ old.username }}" class="form-control" autocomplete="username" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="su-first" class="form-label">First name</label>
+                    <input type="text" id="su-first" name="first_name" value="{{ old.first_name }}" class="form-control" autocomplete="given-name" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="su-last" class="form-label">Last name</label>
+                    <input type="text" id="su-last" name="last_name" value="{{ old.last_name }}" class="form-control" autocomplete="family-name" required>
+                </div>
+                <div class="col-12">
+                    <label for="su-email" class="form-label">Email address</label>
+                    <input type="email" id="su-email" name="email" value="{{ old.email }}" class="form-control" autocomplete="email" required>
+                </div>
+                <div class="col-12">
+                    <label for="su-phone" class="form-label">Phone number</label>
+                    <input type="tel" id="su-phone" name="phone" value="{{ old.phone }}" class="form-control" autocomplete="tel" required>
+                </div>
+                <div class="col-12">
+                    <label for="su-address" class="form-label">Delivery address</label>
+                    <input type="text" id="su-address" name="address" value="{{ old.address }}" class="form-control" autocomplete="street-address" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="su-pass1" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" id="su-pass1" name="password1" class="form-control" autocomplete="new-password" minlength="8" required aria-describedby="su-pass-help">
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#su-pass1" aria-label="Show password" aria-pressed="false"><i class="bi bi-eye-fill"></i></button>
+                    </div>
+                    <div id="su-pass-help" class="form-text">At least 8 characters.</div>
+                </div>
+                <div class="col-sm-6">
+                    <label for="su-pass2" class="form-label">Confirm password</label>
+                    <div class="input-group">
+                        <input type="password" id="su-pass2" name="password2" class="form-control" autocomplete="new-password" minlength="8" required>
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#su-pass2" aria-label="Show password" aria-pressed="false"><i class="bi bi-eye-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-brand w-100 mt-4">Create account</button>
+        </form>
+        <p class="text-center mt-4 mb-0">Already registered? <a class="link-brand" href="{% url 'signin' %}">Log in</a></p>
+    </div></div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}<script src="{% static 'js/login.js' %}?v={{ asset_v }}" defer></script>{% endblock %}

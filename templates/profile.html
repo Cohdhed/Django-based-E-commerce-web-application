@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}My profile | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+
+{% block content %}
+<section class="container my-5">
+    <h1 class="section-title text-center mb-5">{{ userprof.user.username|title }}'s dashboard</h1>
+    <div class="row g-4 align-items-start">
+        <div class="col-md-4 col-lg-3 text-center">
+            <img class="profile-avatar" src="{{ userprof.avatar_url }}" alt="Your profile picture">
+        </div>
+
+        <div class="col-md-8 col-lg-6">
+            <div class="form-card">
+                <h2 class="h5 mb-4">Your details</h2>
+                <dl class="row mb-0 profile-details">
+                    <dt class="col-sm-4">First name</dt><dd class="col-sm-8">{{ userprof.first_name }}</dd>
+                    <dt class="col-sm-4">Last name</dt><dd class="col-sm-8">{{ userprof.last_name }}</dd>
+                    <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ userprof.email }}</dd>
+                    <dt class="col-sm-4">Phone</dt><dd class="col-sm-8">{{ userprof.phone }}</dd>
+                    <dt class="col-sm-4">Address</dt><dd class="col-sm-8">{{ userprof.address }}</dd>
+                </dl>
+                <a href="{% url 'profile_update' %}" class="btn btn-brand mt-4">Edit profile</a>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <nav class="form-card" aria-label="Account links">
+                <h2 class="h6 mb-3">Quick links</h2>
+                <ul class="list-unstyled uselink mb-0">
+                    <li><a href="{% url 'home' %}"><i class="bi bi-caret-right-fill"></i> Home</a></li>
+                    <li><a href="{% url 'cart' %}"><i class="bi bi-caret-right-fill"></i> My cart</a></li>
+                    <li><a href="{% url 'orders' %}"><i class="bi bi-caret-right-fill"></i> My orders</a></li>
+                    <li><a href="{% url 'profile_update' %}"><i class="bi bi-caret-right-fill"></i> Update profile</a></li>
+                    <li><a href="{% url 'password_update' %}"><i class="bi bi-caret-right-fill"></i> Change password</a></li>
+                    <li><a href="{% url 'signout' %}"><i class="bi bi-caret-right-fill"></i> Log out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+{% endblock content %}

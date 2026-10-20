@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Page not found | DevCircle{% endblock %}
+{% block content %}
+<section class="container my-5 text-center empty-state py-5">
+    <i class="bi bi-compass"></i>
+    <h1 class="h3 mt-3">We could not find that page</h1>
+    <p class="text-body-secondary">The link may be old, or the phone may have been removed.</p>
+    <a href="{% url 'home' %}" class="btn btn-brand me-2">Go home</a>
+    <a href="{% url 'products' %}" class="btn btn-outline-brand">Browse phones</a>
+</section>
+{% endblock content %}

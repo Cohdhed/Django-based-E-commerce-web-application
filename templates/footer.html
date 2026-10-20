@@ -1,0 +1,43 @@
+{% load static %}
+<footer class="site-footer">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-12 col-lg-5">
+                <a class="brand mb-3" href="{% url 'home' %}">
+                    <img src="{% if cprofile.logo %}{{ cprofile.logo.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" alt="{{ cprofile.name|default:'DevCircle' }}">
+                </a>
+                <p class="mb-0" style="max-width: 36ch;">Genuine phones at clear prices, delivered to your door.</p>
+                <span class="pay-note"><i class="bi bi-shield-lock-fill"></i>Secure checkout with Paystack</span>
+            </div>
+            <div class="col-6 col-lg-3">
+                <h2 class="footer-title">Shop</h2>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="{% url 'products' %}">All phones</a></li>
+                    {% for item in dropdown|slice:":4" %}<li><a href="{% url 'category' item.id item.slug %}">{{ item.brand }}</a></li>{% endfor %}
+                    <li><a href="{% url 'orders' %}">My orders</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-4">
+                <h2 class="footer-title">Company</h2>
+                <ul class="list-unstyled mb-3">
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {# Point these at real pages when you create them #}
+                    <li><a href="#">Privacy policy</a></li>
+                    <li><a href="#">Terms and conditions</a></li>
+                    <li><a href="#">Return policy</a></li>
+                </ul>
+                <ul class="list-inline mb-0 social">
+                    {# Replace each # with your real profile URL #}
+                    <li class="list-inline-item"><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a></li>
+                    <li class="list-inline-item"><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a></li>
+                    <li class="list-inline-item"><a href="#" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom py-3">
+        <p class="text-center mb-0 small">&copy; {% now "Y" %} {{ cprofile.name|default:"DevCircle" }}. All rights reserved. Crafted by Cohdhed.</p>
+    </div>
+</footer>

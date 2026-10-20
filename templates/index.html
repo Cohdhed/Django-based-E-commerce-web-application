@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}DevCircle | Phones priced clear{% endblock %}
+{% block corousel %}{% include 'corousel.html' %}{% endblock corousel %}
+
+{% block content %}
+{% if cprofile.carousel_images %}
+<section class="container promo" aria-label="Promotions">
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for img in cprofile.carousel_images %}<button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>{% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for img in cprofile.carousel_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="5000"><img src="{{ img.url }}" class="d-block w-100 hero-img" alt="Promotion {{ forloop.counter }}"></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% include 'product_section.html' with products=featured heading='Featured phones' section_id='featured' %}
+{% include 'product_section.html' with products=bestselling heading='Best sellers' section_id='bestselling' %}
+{% include 'product_section.html' with products=latest heading='Just in' section_id='latest' %}
+
+{% if not featured and not bestselling and not latest %}
+<div class="container my-5 text-center empty-state">
+    <i class="bi bi-phone"></i>
+    <h2 class="h4 mt-3">No phones yet</h2>
+    <p class="text-body-secondary">Add products in the admin and they will show up here.</p>
+</div>
+{% endif %}
+{% endblock content %}

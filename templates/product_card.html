@@ -1,0 +1,25 @@
+{% load humanize %}
+<article class="pcard">
+    <a href="{{ item.get_absolute_url }}" class="pcard-media" aria-label="View {{ item.name }}">
+        {% if item.on_sale %}<span class="pcard-off">-{{ item.discount_percent }}%</span>{% endif %}
+        <img src="{{ item.pix.url }}" alt="{{ item.name }}" loading="lazy">
+    </a>
+    <div class="pcard-body">
+        <p class="pcard-brand">{{ item.type.brand }}</p>
+        <h3 class="pcard-name"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></h3>
+        <div class="pcard-buy">
+            <div class="pcard-prices">
+                <span class="price-tag">₦{{ item.final_price|floatformat:0|intcomma }}</span>
+                {% if item.on_sale %}<del class="price-was">₦{{ item.price|floatformat:0|intcomma }}</del>{% endif %}
+            </div>
+            {% if item.in_stock %}
+            <form action="{% url 'addtocart' %}" method="post" data-once>
+                {% csrf_token %}
+                <input type="hidden" name="phoneid" value="{{ item.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="pcard-add" aria-label="Add {{ item.name }} to cart"><i class="bi bi-bag-plus"></i></button>
+            </form>
+            {% else %}<span class="pcard-soldout">Sold out</span>{% endif %}
+        </div>
+    </div>
+</article>

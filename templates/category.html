@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ categ.brand }} phones | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+{% block content %}
+<section class="container my-5">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'products' %}">Phones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ categ.brand }}</li>
+    </ol></nav>
+    <h1 class="section-title text-center mb-5">{{ categ.brand }}</h1>
+    {% include '_listing.html' %}
+</section>
+{% endblock content %}

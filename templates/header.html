@@ -1,0 +1,64 @@
+{% load static %}
+{% with current=request.resolver_match.url_name %}
+<div class="utility d-none d-md-block">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-truck"></i>Delivery to your door, pay securely online</span>
+        <ul class="list-inline mb-0 util-links">
+            <li class="list-inline-item"><a href="tel:+2348033459981"><i class="bi bi-telephone-fill"></i>+234 803 345 9981</a></li>
+            <li class="list-inline-item"><a href="mailto:info@teamdevcircle.com"><i class="bi bi-envelope-fill"></i>info@teamdevcircle.com</a></li>
+        </ul>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="container">
+        <div class="hdr-row">
+            <a class="brand" href="{% url 'home' %}" aria-label="{{ cprofile.name|default:'DevCircle' }} home">
+                <img src="{% if cprofile.logo %}{{ cprofile.logo.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" alt="{{ cprofile.name|default:'DevCircle' }}">
+            </a>
+
+            <div class="hdr-actions">
+                <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch to dark mode"><i class="bi bi-moon-fill"></i></button>
+                <a class="icon-btn" href="{% if user.is_authenticated %}{% url 'cart' %}{% else %}{% url 'signin' %}{% endif %}" aria-label="Cart{% if cart_count %}, {{ cart_count }} item{{ cart_count|pluralize }}{% endif %}">
+                    <i class="bi bi-bag"></i>{% if cart_count %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
+                </a>
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="acct" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu">
+                        {% if user.customer %}<img src="{{ user.customer.avatar_url }}" alt="">{% else %}<i class="bi bi-person-circle fs-4"></i>{% endif %}
+                        <span class="d-none d-lg-inline">{{ user.first_name|default:user.username }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'orders' %}"><i class="bi bi-bag-check"></i>My orders</a></li>
+                        <li><a class="dropdown-item" href="{% url 'cart' %}"><i class="bi bi-bag"></i>Cart</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'signout' %}"><i class="bi bi-box-arrow-right"></i>Log out</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <a class="btn btn-ghost btn-sm d-none d-sm-inline-block" href="{% url 'signin' %}">Log in</a>
+                <a class="btn btn-brand btn-sm" href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
+            </div>
+
+            <form class="hdr-search" role="search" action="{% url 'products' %}" method="get">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <label for="nav-q" class="visually-hidden">Search phones</label>
+                <input id="nav-q" type="search" name="q" placeholder="Search phones or brands" value="{{ q|default:'' }}" autocomplete="off">
+                <button class="btn-search" type="submit">Search</button>
+            </form>
+        </div>
+
+        <nav class="chips" aria-label="Browse">
+            <a class="chip {% if current == 'home' %}is-active{% endif %}" href="{% url 'home' %}">Home</a>
+            <a class="chip {% if current == 'products' %}is-active{% endif %}" href="{% url 'products' %}">All phones</a>
+            {% for item in dropdown %}
+            <a class="chip {% if categ and categ.id == item.id %}is-active{% endif %}" href="{% url 'category' item.id item.slug %}">{{ item.brand }}</a>
+            {% endfor %}
+            <a class="chip {% if current == 'about' %}is-active{% endif %}" href="{% url 'about' %}">About</a>
+            <a class="chip {% if current == 'contact' %}is-active{% endif %}" href="{% url 'contact' %}">Contact</a>
+        </nav>
+    </div>
+</header>
+{% endwith %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}About us | DevCircle{% endblock %}
+{% block banner %}{% include 'banner.html' %}{% endblock banner %}
+{% block content %}
+<section class="container my-5">
+    <h1 class="section-title text-center mb-5">About {{ cprofile.name|default:"DevCircle" }}</h1>
+    <div class="row justify-content-center"><div class="col-lg-8 prose">
+        {% if abouttab.about %}{{ abouttab.about|linebreaks }}
+        {% else %}<p>We sell genuine phones at fair prices and deliver them to your door. Questions? <a href="{% url 'contact' %}">Get in touch</a>.</p>{% endif %}
+    </div></div>
+</section>
+{% endblock content %}
