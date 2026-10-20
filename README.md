@@ -1,4 +1,4 @@
-# DevCircle: Django phone shop (rebuilt)
+# E-commerce Web Application: Phone shop
 
 ## Run it locally
 ```bash
